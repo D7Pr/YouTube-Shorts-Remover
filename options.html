@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options - YouTube Shorts Remover</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <img src="icons/icon48.png" alt="YouTube Shorts Remover" class="logo">
+        <h1>YouTube Shorts Remover</h1>
+      </div>
+      <div class="version">v<span id="version"></span></div>
+    </header>
+
+    <main>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="settings">Settings</button>
+        <button class="tab-btn" data-tab="logs">Logs</button>
+        <button class="tab-btn" data-tab="stats">Statistics</button>
+        <button class="tab-btn" data-tab="about">About</button>
+      </div>
+
+      <div class="tab-content">
+        <!-- Settings Tab -->
+        <div class="tab-pane active" id="settings-tab">
+          <section class="settings-section">
+            <h2>General</h2>
+            <div class="form-group">
+              <label class="switch">
+                <input type="checkbox" id="enabled">
+                <span class="slider round"></span>
+              </label>
+              <label for="enabled">Enable Shorts Remover</label>
+            </div>
+            
+            <div class="form-group">
+              <label class="switch">
+                <input type="checkbox" id="redirect">
+                <span class="slider round"></span>
+              </label>
+              <label for="redirect">Redirect /shorts URLs to homepage</label>
+            </div>
+            
+            <div class="form-group">
+              <label class="switch">
+                <input type="checkbox" id="showCounter">
+                <span class="slider round"></span>
+              </label>
+              <label for="showCounter">Show counter badge on YouTube</label>
+            </div>
+          </section>
+
+          <section class="settings-section">
+            <h2>Default Selectors</h2>
+            <p class="help-text">These selectors are used to identify and remove Shorts content. One selector per line.</p>
+            <textarea id="patterns" rows="8"></textarea>
+          </section>
+
+          <section class="settings-section">
+            <h2>Custom Selectors</h2>
+            <p class="help-text">Add your own CSS selectors to remove additional elements. One selector per line.</p>
+            <textarea id="custom" rows="4" placeholder="e.g. .custom-shorts-element"></textarea>
+          </section>
+
+          <section class="settings-section">
+            <h2>Advanced</h2>
+            <div class="form-group">
+              <label for="logLevel">Log Level:</label>
+              <select id="logLevel">
+                <option value="debug">Debug</option>
+                <option value="info">Info</option>
+                <option value="warn">Warning</option>
+                <option value="error">Error</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="switch">
+                <input type="checkbox" id="logging">
+                <span class="slider round"></span>
+              </label>
+              <label for="logging">Enable Logging</label>
+            </div>
+          </section>
+
+          <div class="action-buttons">
+            <button id="save" class="primary-btn">Save Settings</button>
+            <button id="reset" class="secondary-btn">Reset to Default</button>
+          </div>
+        </div>
+
+        <!-- Logs Tab -->
+        <div class="tab-pane" id="logs-tab">
+          <div class="logs-header">
+            <h2>Extension Logs</h2>
+            <div class="logs-actions">
+              <button id="clearLogs" class="secondary-btn">Clear Logs</button>
+              <button id="downloadLogs" class="secondary-btn">Download</button>
+            </div>
+          </div>
+          
+          <div class="filter-bar">
+            <select id="logFilter">
+              <option value="all">All Levels</option>
+              <option value="debug">Debug</option>
+              <option value="info">Info</option>
+              <option value="warn">Warning</option>
+              <option value="error">Error</option>
+            </select>
+            <input type="text" id="searchLogs" placeholder="Search logs...">
+          </div>
+          
+          <div id="logViewer" class="log-viewer"></div>
+        </div>
+
+        <!-- Stats Tab -->
+        <div class="tab-pane" id="stats-tab">
+          <h2>Statistics</h2>
+          <div class="stats-container">
+            <div class="stat-card">
+              <div class="stat-icon">🚫</div>
+              <div class="stat-value" id="totalRemoved">0</div>
+              <div class="stat-label">Total Shorts Removed</div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">🕒</div>
+              <div class="stat-value" id="lastCleanup">Never</div>
+              <div class="stat-label">Last Cleanup</div>
+            </div>
+          </div>
+          
+          <div class="action-buttons">
+            <button id="resetStats" class="secondary-btn">Reset Statistics</button>
+          </div>
+        </div>
+
+        <!-- About Tab -->
+        <div class="tab-pane" id="about-tab">
+          <h2>About</h2>
+          <div class="about-content">
+            <p>YouTube Shorts Remover helps you browse YouTube without the distraction of Shorts content.</p>
+            
+            <h3>Features</h3>
+            <ul>
+              <li>Removes Shorts from feed, sidebar, and search results</li>
+              <li>Optional redirect from Shorts pages</li>
+              <li>Customizable with your own CSS selectors</li>
+              <li>Statistics tracking</li>
+              <li>Detailed logging</li>
+            </ul>
+            
+            <h3>How to Use</h3>
+            <p>Simply enable the extension and browse YouTube normally. The extension will automatically remove Shorts content as you browse.</p>
+            <p>You can customize which elements are removed by adding your own CSS selectors in the Settings tab.</p>
+            
+            <h3>Support</h3>
+            <p>If you encounter any issues or have suggestions, please contact support.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 YouTube Shorts Remover</p>
+    </footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

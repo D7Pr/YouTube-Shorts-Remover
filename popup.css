@@ -1,0 +1,206 @@
+/* popup.css */
+/* ---------------------------
+ * popup.css
+ * --------------------------- */
+
+:root {
+  --primary-color: #f44336;
+  --primary-hover: #d32f2f;
+  --text-color: #333;
+  --light-text: #666;
+  --bg-color: #f9f9f9;
+  --border-color: #e0e0e0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  width: 320px;
+  overflow: hidden;
+}
+
+.popup {
+  width: 100%;
+  padding: 16px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
+}
+
+.title h1 {
+  font-size: 20px;
+  margin-bottom: 4px;
+  color: var(--primary-color);
+}
+
+.title .version {
+  font-size: 12px;
+  color: var(--light-text);
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--light-text);
+}
+
+/* Controls */
+.controls {
+  margin-bottom: 16px;
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  margin-right: 12px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.option-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.option-desc {
+  font-size: 12px;
+  color: var(--light-text);
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.action-button:hover {
+  background-color: var(--primary-hover);
+}
+
+.action-button svg {
+  margin-right: 6px;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  padding-top: 12px;
+}
+
+.footer a {
+  font-size: 12px;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: var(--primary-color);
+}
+
+#currentTab {
+  font-size: 12px;
+  color: var(--light-text);
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Shorts Remover</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <div class="header">
+      <img src="icons/icon48.png" alt="Shorts Remover" class="logo">
+      <div class="title">
+        <h1>Shorts Remover</h1>
+        <span class="version">v<span id="version">2.1.0</span></span>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-value" id="totalRemoved">0</span>
+        <span class="stat-label">Shorts Removed</span>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <div class="toggle-option">
+        <label class="switch">
+          <input type="checkbox" id="enabled">
+          <span class="slider round"></span>
+        </label>
+        <div class="option-text">
+          <span class="option-name">Enable</span>
+          <span class="option-desc">Hide Shorts content</span>
+        </div>
+      </div>
+      
+      <div class="toggle-option">
+        <label class="switch">
+          <input type="checkbox" id="redirect">
+          <span class="slider round"></span>
+        </label>
+        <div class="option-text">
+          <span class="option-name">Redirect</span>
+          <span class="option-desc">Redirect /shorts to homepage</span>
+        </div>
+      </div>
+      
+      <div class="toggle-option">
+        <label class="switch">
+          <input type="checkbox" id="showCounter">
+          <span class="slider round"></span>
+        </label>
+        <div class="option-text">
+          <span class="option-name">Counter</span>
+          <span class="option-desc">Show counter on YouTube</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <button id="refresh" class="action-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6"></path>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+        </svg>
+        <span>Refresh</span>
+      </button>
+      
+      <button id="openOptions" class="action-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span>Options</span>
+      </button>
+    </div>
+    
+    <div class="footer">
+      <a href="https://github.com/D7Pr/YouTubeShortsRemove-Extenstion" id="githubLink" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        </svg>
+        GitHub
+      </a>
+      <span id="currentTab"></span>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
