@@ -87,6 +87,35 @@
             </div>
           </section>
 
+          <section class="settings-section">
+            <h2>Performance Settings</h2>
+            <p class="help-text">Fine-tune performance settings for optimal browsing experience.</p>
+            
+            <div class="form-group">
+              <label for="batchSize">Batch Size (elements processed per batch):</label>
+              <input type="number" id="batchSize" min="5" max="50" value="20">
+              <span class="help-text">Lower values use less CPU but may be slower</span>
+            </div>
+            
+            <div class="form-group">
+              <label for="maxItems">Max Items (per cleaning cycle):</label>
+              <input type="number" id="maxItems" min="100" max="5000" value="1000">
+              <span class="help-text">Maximum shorts elements to remove in one cycle</span>
+            </div>
+            
+            <div class="form-group">
+              <label for="throttleMs">Throttle Delay (milliseconds):</label>
+              <input type="number" id="throttleMs" min="10" max="500" value="50">
+              <span class="help-text">Delay between page scans (lower = more responsive)</span>
+            </div>
+            
+            <div class="form-group">
+              <label for="maxBatchTime">Max Batch Time (milliseconds):</label>
+              <input type="number" id="maxBatchTime" min="50" max="1000" value="100">
+              <span class="help-text">Maximum time per batch to prevent page freezing</span>
+            </div>
+          </section>
+
           <div class="action-buttons">
             <button id="save" class="primary-btn">Save Settings</button>
             <button id="reset" class="secondary-btn">Reset to Default</button>

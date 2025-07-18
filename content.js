@@ -59,37 +59,111 @@
   function getAllPatterns() {
     return [...config.patterns, ...config.customPatterns].filter(p => p.trim());
   }
+
+  // Helper function to verify if an element is likely a shorts element
+  function isLikelyShorts(element) {
+    if (!element) return false;
+    
+    // Check for shorts-related keywords in various attributes
+    const shortsKeywords = ['shorts', 'reel', '#shorts'];
+    const attributesToCheck = ['href', 'aria-label', 'title', 'class', 'id'];
+    
+    for (const attr of attributesToCheck) {
+      const value = element.getAttribute(attr);
+      if (value) {
+        const lowerValue = value.toLowerCase();
+        if (shortsKeywords.some(keyword => lowerValue.includes(keyword))) {
+          return true;
+        }
+      }
+    }
+    
+    // Check text content for shorts indicators
+    const textContent = element.textContent?.toLowerCase() || '';
+    if (shortsKeywords.some(keyword => textContent.includes(keyword))) {
+      return true;
+    }
+    
+    // Check for shorts URLs in child elements
+    const links = element.querySelectorAll('a[href*="/shorts/"]');
+    if (links.length > 0) {
+      return true;
+    }
+    
+    // Check parent elements for shorts context
+    let parent = element.parentElement;
+    let depth = 0;
+    while (parent && depth < 3) {
+      const parentClass = parent.className?.toLowerCase() || '';
+      const parentId = parent.id?.toLowerCase() || '';
+      if (shortsKeywords.some(keyword => parentClass.includes(keyword) || parentId.includes(keyword))) {
+        return true;
+      }
+      parent = parent.parentElement;
+      depth++;
+    }
+    
+    return false;
+  }
   
   async function cleanPage() {
     const allPatterns = getAllPatterns();
     let removedCount = 0;
+    const startTime = performance.now();
 
     try {
-      // Process in batches for better performance
+      // Process in batches for better performance with time-based limits
       for (let i = 0; i < allPatterns.length; i += config.performance.batchSize) {
         const batch = allPatterns.slice(i, i + config.performance.batchSize);
+        const batchStartTime = performance.now();
         
         for (const selector of batch) {
-          const elements = document.querySelectorAll(selector);
-          if (elements.length > 0) {
+          try {
+            const elements = document.querySelectorAll(selector);
+            if (elements.length > 0) {
+              chrome.runtime.sendMessage({ 
+                type: 'log', 
+                level: 'debug', 
+                text: `Found ${elements.length} items matching: ${selector}` 
+              });
+              
+              // Process items with improved limits
+              const itemsToProcess = Math.min(elements.length, config.performance.maxItems);
+              let processedInBatch = 0;
+              
+              for (let j = 0; j < itemsToProcess; j++) {
+                if (elements[j] && elements[j].parentNode) {
+                  // Check if element is actually a shorts-related element
+                  if (isLikelyShorts(elements[j])) {
+                    elements[j].remove();
+                    removedCount++;
+                    processedInBatch++;
+                  }
+                }
+                
+                // Check if we've exceeded batch time limit
+                if (performance.now() - batchStartTime > config.performance.maxBatchTime) {
+                  chrome.runtime.sendMessage({ 
+                    type: 'log', 
+                    level: 'debug', 
+                    text: `Batch time limit reached, processed ${processedInBatch} items` 
+                  });
+                  break;
+                }
+              }
+            }
+          } catch (selectorError) {
             chrome.runtime.sendMessage({ 
               type: 'log', 
-              level: 'debug', 
-              text: `Found ${elements.length} items matching: ${selector}` 
+              level: 'warn', 
+              text: `Selector error for '${selector}': ${selectorError.message}` 
             });
-            
-            // Limit the number of items processed at once
-            const itemsToProcess = Math.min(elements.length, config.performance.maxItems);
-            for (let j = 0; j < itemsToProcess; j++) {
-              elements[j].remove();
-              removedCount++;
-            }
           }
         }
         
         // Small delay between batches to avoid freezing the UI
         if (i + config.performance.batchSize < allPatterns.length) {
-          await new Promise(resolve => setTimeout(resolve, 5));
+          await new Promise(resolve => setTimeout(resolve, 2));
         }
       }
       
@@ -97,10 +171,11 @@
         shortCounter += removedCount;
         updateCounterBadge();
         
+        const duration = performance.now() - startTime;
         chrome.runtime.sendMessage({ 
           type: 'log', 
           level: 'info', 
-          text: `Removed ${removedCount} shorts elements` 
+          text: `Removed ${removedCount} shorts elements in ${duration.toFixed(2)}ms` 
         });
       }
       
@@ -213,11 +288,21 @@
   function updateCounterBadge() {
     const badge = document.getElementById('shorts-remover-counter');
     if (badge) {
-      badge.innerHTML = shortCounter.toString();
+      // Format large numbers appropriately
+      let displayText = shortCounter.toString();
+      if (shortCounter >= 1000000) {
+        displayText = (shortCounter / 1000000).toFixed(1) + 'M';
+      } else if (shortCounter >= 1000) {
+        displayText = (shortCounter / 1000).toFixed(1) + 'K';
+      }
+      
+      badge.innerHTML = displayText;
       badge.style.opacity = '0.8';
       
-      // Animation effect
+      // Animation effect with better visibility for large numbers
       badge.style.transform = 'scale(1.2)';
+      badge.style.background = shortCounter > 500 ? '#ff5722' : '#f44336';
+      
       setTimeout(() => {
         badge.style.transform = 'scale(1)';
       }, 200);
@@ -226,6 +311,9 @@
       setTimeout(() => {
         badge.style.opacity = '0.2';
       }, 3000);
+      
+      // Update title to show exact count
+      badge.title = `${shortCounter} shorts elements removed`;
     }
   }
   

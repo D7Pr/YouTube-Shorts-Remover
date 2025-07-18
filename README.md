@@ -6,18 +6,23 @@ Hide YouTube Shorts from your feed, search results, sidebar, and related videos 
 
 ## ✨ Features
 
-- 🔥 Removes Shorts from:
+- 🔥 **Advanced Shorts Removal** from:
   - Home feed (`ytd-rich-shelf-renderer`)
   - Sidebar tab
   - Related video sections
   - Channel pages
   - Search results
-- ⚙️ Custom CSS selector support via Options page
+  - And many more locations with 28+ detection patterns
+- ⚡ **High-Performance Processing**: Handles 1000+ shorts per cycle (upgraded from 200)
+- ⚙️ **Customizable Performance Settings**: Adjust batch sizes, throttling, and processing limits
+- 🎯 **Smart Detection**: Advanced element verification to ensure only Shorts are removed
 - 🔄 Optional redirect from `/shorts/*` to the homepage
+- 📊 **Enhanced Statistics**: Track removal counts with smart formatting (K/M notation)
 - 🪵 Built-in structured logging system (view, download, clear)
 - 🧠 Flexible config stored in `chrome.storage.sync`
 - 💡 Manifest V3 + modular architecture
-- 💻 Simple and modern user interface (popup & options page)
+- 💻 Modern and responsive user interface (popup & options page)
+- 🎨 **Visual Counter Badge**: On-page counter with smart formatting for large numbers
 
 ---
 
@@ -53,9 +58,18 @@ Hide YouTube Shorts from your feed, search results, sidebar, and related videos 
 
 ### ⚙️ Options Page
 
-- 📋 Manage built-in and custom CSS selectors
+- 📋 Manage built-in and custom CSS selectors (28+ patterns included)
+- ⚡ **Performance Settings**: Fine-tune batch sizes, processing limits, and timing
 - 📄 View, download, or clear logs
+- 📊 Statistics with smart number formatting
 - 💾 Save settings with one click
+
+### 🎛️ Performance Configuration
+
+- **Batch Size**: Control how many elements are processed per batch (5-50)
+- **Max Items**: Set maximum shorts to remove per cycle (100-5000, default: 1000)
+- **Throttle Delay**: Adjust scanning frequency (10-500ms, default: 50ms)
+- **Batch Time Limit**: Prevent page freezing with time limits (50-1000ms, default: 100ms)
 
 ---
 
@@ -71,6 +85,27 @@ youtube-shorts-remover/
 ├── manifest.json         # Manifest V3 configuration
 └── icons/                # Extension icons
 ```
+
+---
+
+## 🆕 Version 2.2.0 Improvements
+
+### 🚀 Performance Enhancements
+- **5x Increased Processing Capacity**: Now handles up to 1000 shorts per cycle (vs 200 previously)
+- **Optimized Batch Processing**: Smarter batching with configurable sizes (5-50 elements)
+- **Time-Based Limits**: Prevents UI freezing with configurable batch time limits
+- **Reduced Throttling**: Faster response times with 50ms default throttling (vs 100ms)
+
+### 🎯 Enhanced Detection
+- **28+ Detection Patterns**: Comprehensive coverage of YouTube Shorts elements
+- **Smart Element Verification**: Advanced `isLikelyShorts()` function prevents false positives
+- **Future-Proof Selectors**: Added patterns for new YouTube component formats
+
+### 📊 Better User Experience
+- **Smart Number Formatting**: Counter displays 1.5K, 2.3M instead of long numbers
+- **Performance Settings UI**: Full control over processing parameters
+- **Enhanced Statistics**: Better tracking and display of removal statistics
+- **Improved Error Handling**: More robust error handling and logging
 
 ---
 

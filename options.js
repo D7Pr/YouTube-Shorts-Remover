@@ -44,7 +44,7 @@ async function loadConfig() {
     );
     
     // Display version
-    document.getElementById('version').textContent = config.version || '2.1.0';
+    document.getElementById('version').textContent = config.version || '2.2.0';
     
     // Populate form fields
     document.getElementById('enabled').checked = config.enabled;
@@ -56,6 +56,14 @@ async function loadConfig() {
     // Fill textareas
     document.getElementById('patterns').value = config.patterns.join('\n');
     document.getElementById('custom').value = (config.customPatterns || []).join('\n');
+    
+    // Performance settings
+    if (config.performance) {
+      document.getElementById('batchSize').value = config.performance.batchSize || 20;
+      document.getElementById('maxItems').value = config.performance.maxItems || 1000;
+      document.getElementById('throttleMs').value = config.performance.throttleMs || 50;
+      document.getElementById('maxBatchTime').value = config.performance.maxBatchTime || 100;
+    }
     
     // Stats
     updateStatsDisplay(config.stats);
@@ -156,7 +164,13 @@ async function saveConfig() {
       logging: document.getElementById('logging').checked,
       logLevel: document.getElementById('logLevel').value,
       patterns: document.getElementById('patterns').value.split('\n').filter(l => l.trim()),
-      customPatterns: document.getElementById('custom').value.split('\n').filter(l => l.trim())
+      customPatterns: document.getElementById('custom').value.split('\n').filter(l => l.trim()),
+      performance: {
+        batchSize: parseInt(document.getElementById('batchSize').value) || 20,
+        maxItems: parseInt(document.getElementById('maxItems').value) || 1000,
+        throttleMs: parseInt(document.getElementById('throttleMs').value) || 50,
+        maxBatchTime: parseInt(document.getElementById('maxBatchTime').value) || 100
+      }
     };
     
     await new Promise(resolve => 
@@ -357,7 +371,7 @@ function escapeHtml(unsafe) {
 
 // Default config - defined for reset function
 const DEFAULT_CONFIG = {
-  version: "2.1.0",
+  version: "2.2.0",
   enabled: true,
   patterns: [
     "ytd-rich-shelf-renderer",     // shorts shelf
@@ -374,7 +388,20 @@ const DEFAULT_CONFIG = {
     "ytd-grid-video-renderer a[href*='/shorts/']",    // grid shorts
     "ytd-compact-movie-renderer a[href*='/shorts/']", // compact shorts
     "ytm-pivot-bar-item-renderer[tab-identifier='pivot-shorts']", // mobile shorts tab
-    ".reel-shelf-items-container"                     // more shorts items
+    ".reel-shelf-items-container",                     // more shorts items
+    "ytd-rich-shelf-renderer[is-shorts]",             // new shorts shelf format
+    "ytd-shorts-lockup-view-model-v2",                // new shorts component
+    "ytd-reel-video-renderer",                        // reel video components
+    "ytd-shorts-shelf-renderer",                      // direct shorts shelf
+    "yt-formatted-string[aria-label*='Shorts']",      // shorts labels
+    "[href*='youtube.com/shorts/']",                  // any shorts links
+    "ytd-compact-radio-renderer a[href*='/shorts/']", // compact shorts in radio
+    "ytd-playlist-video-renderer a[href*='/shorts/']", // shorts in playlists
+    "ytd-channel-video-player-renderer a[href*='/shorts/']", // channel shorts
+    "div[aria-label*='Shorts']",                      // generic shorts divs
+    ".shorts-shelf",                                  // CSS class-based shorts
+    "#shorts-section",                                // shorts section by ID
+    "ytd-mini-guide-entry-renderer[aria-label*='Shorts']" // mini guide shorts
   ],
   customPatterns: [],
   redirectShortsPage: false,
@@ -382,9 +409,10 @@ const DEFAULT_CONFIG = {
   logLevel: "info",
   showCounter: true,
   performance: {
-    batchSize: 10,
-    throttleMs: 100,
-    maxItems: 200
+    batchSize: 20,
+    throttleMs: 50,
+    maxItems: 1000,
+    maxBatchTime: 100
   },
   stats: {
     totalRemoved: 0,

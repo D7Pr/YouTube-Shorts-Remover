@@ -159,19 +159,27 @@ async function resetStatistics() {
   }
 }
 
-// Update extension badge
+// Update extension badge with improved formatting
 function updateBadge(count) {
-  const text = count > 0 ? count.toString() : '';
+  let displayText = '';
   
-  // Truncate large numbers
-  let displayText = text;
-  if (count > 999) {
-    displayText = Math.floor(count / 1000) + 'k';
+  if (count > 0) {
+    if (count >= 1000000) {
+      displayText = Math.floor(count / 1000000) + 'M';
+    } else if (count >= 1000) {
+      displayText = Math.floor(count / 1000) + 'K';
+    } else {
+      displayText = count.toString();
+    }
   }
   
   chrome.action.setBadgeText({ text: displayText });
-  chrome.action.setBadgeBackgroundColor({ color: '#f44336' });
+  chrome.action.setBadgeBackgroundColor({ 
+    color: count > 1000 ? '#ff5722' : '#f44336' 
+  });
   
-  // Set title for hover tooltip
-  chrome.action.setTitle({ title: `YouTube Shorts Remover: ${count} shorts removed` });
+  // Set title for hover tooltip with exact count
+  chrome.action.setTitle({ 
+    title: `YouTube Shorts Remover: ${count.toLocaleString()} shorts removed` 
+  });
 }

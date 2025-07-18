@@ -1,23 +1,9 @@
-/*
-Project: YouTube Shorts Remover (v2.0.0)
-Features:
-- Extensive removal patterns (feed, sidebar, related, tab, banners)
-- Custom selectors editable in Options
-- Flexible config for easy updates
-- Modern, responsive UI
-- Structured logging with in-app log viewer & download
-- MV3 manifest, modular code
-*/
-
-// ---------------------------
-// manifest.json
-// ---------------------------
 {
   "manifest_version": 3,
   "name": "YouTube Shorts Remover",
-  "version": "2.0.0",
-  "description": "Hide YouTube Shorts everywhere with advanced customization.",
-  "author": "Your Name",
+  "version": "2.2.0",
+  "description": "Hide YouTube Shorts everywhere with advanced customization and improved performance.",
+  "author": "D7Pr",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
